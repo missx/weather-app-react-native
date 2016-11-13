@@ -6,8 +6,8 @@ import {
   StyleSheet,
   Navigator
 } from 'react-native';
-import HomeComponent from './components/HomeComponent';
-import SearchComponent from './components/SearchComponent';
+import HomeComponent from './components/HomeComponent/HomeComponent';
+import SearchComponent from './components/SearchComponent/SearchComponent';
 
 export default class WeatherApp extends Component {
 
