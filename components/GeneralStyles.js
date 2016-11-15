@@ -1,6 +1,10 @@
 export default {
     
     font: {
-        color: 'black'
+        color: '#481D24'
+    },
+    
+    background: {
+        backgroundColor: '#E8967A'
     }
 }
