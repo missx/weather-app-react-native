@@ -1,7 +1,8 @@
 export default {
    
     dateText: {
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: 16
     }
     
 }

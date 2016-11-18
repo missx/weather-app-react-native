@@ -37,7 +37,11 @@ export default class HomeComponent extends Component {
                 <ScrollView style={[GeneralStyles.background,         Style.main]}>
                     <LocationComponent location='Montevideo, Uruguay'/>
                     <DateComponent day='10' month='January' year='2017'/>
-                    <CurrentWeatherComponent description='clear sky' />
+                    <CurrentWeatherComponent 
+                        description='clear sky'
+                        currentTemperature='22'
+                        min='18'
+                        max='24'/>
                 </ScrollView>
             </View>
         );

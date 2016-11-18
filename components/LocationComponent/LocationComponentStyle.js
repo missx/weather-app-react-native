@@ -1,7 +1,7 @@
 export default {
         
     locationText: {
-        fontSize: 18,
+        fontSize: 20,
         textAlign: 'center'
     }
 }
