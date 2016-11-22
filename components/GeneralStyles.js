@@ -5,6 +5,7 @@ export default {
     },
     
     background: {
-        backgroundColor: '#E8967A'
+        backgroundColor: '#95C6B3', 
+        flex: 1
     }
 }

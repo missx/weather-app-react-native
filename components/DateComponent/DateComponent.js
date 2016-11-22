@@ -14,7 +14,7 @@ export default class DateComponent extends Component {
     render() {
         return(
             <View>
-               <Text style={[Styles.dateText, GeneralStyles.font]}>{this.props.day} {this.props.month}, {this.props.year}</Text> 
+               <Text style={[Styles.dateText, GeneralStyles.font]}>{this.props.abbrDay}, {this.props.day} {this.props.month}, {this.props.year}</Text> 
             </View>
         );
     }
