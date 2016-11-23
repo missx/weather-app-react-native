@@ -2,7 +2,8 @@ var Utils = {
     
     _findCorrespondingWeatherImg: function(weatherDescription) {
         
-        var image;
+        var image = '';
+        
         switch (weatherDescription) {
             case 'clear sky':
                 image = 'http://openweathermap.org/img/w/01d.png';
@@ -32,6 +33,34 @@ var Utils = {
                 image = 'http://openweathermap.org/img/w/50d.png';
         }
         return image;
+    },
+    
+    _getDayOfWeekAbbreviated: function(day) {
+        var abbrDay = '';
+    
+        switch (day) {
+            case 'Monday':
+                abbrDay = 'Mon';
+                break;
+            case 'Tuesday':
+                abbrDay = 'Tue';
+                break;
+            case 'Wednesday':
+                abbrDay = 'Wed';
+                break;
+            case 'Thursday':
+                abbrDay = 'Thu';
+                break;
+            case 'Friday':
+                abbrDay = 'Fri';
+                break;
+            case 'Saturday':
+                abbrDay = 'Sat';
+                break;
+            case 'Sunday':
+                abbrDay = 'Sun';
+        }
+        return abbrDay;
     }
     
 }
