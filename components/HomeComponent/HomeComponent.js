@@ -13,10 +13,32 @@ import DateComponent from '../DateComponent/DateComponent';
 import CurrentWeatherComponent from '../CurrentWeatherComponent/CurrentWeatherComponent';
 import NextDaysComponent from '../NextDaysComponent/NextDaysComponent';
 import GeneralStyles from '../GeneralStyles';
-import Style from './HomeComponentStyle'
+import Style from './HomeComponentStyle';
+import Api from '../../server/weather-api';
+import Utils from '../../utils/js/utils';
 
 export default class HomeComponent extends Component {
     
+    state = {
+        currentLocation: {},
+        currentLocationForecast: {}
+    };
+    
+    constructor(props) {
+        super(props);
+        
+    };
+    
+    componentDidMount = function () {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({currentLocation: position});
+                this.getCurrentForecast();
+            },
+            (error) => alert(JSON.stringify(error)),
+            {enableHighAccuracy: true, timeout: 10000, maximumAge: 3000}
+        );
+    };
     
     _onActionSelected = (position) => {
         if (position === 0) {
@@ -24,7 +46,18 @@ export default class HomeComponent extends Component {
               id: 1
             })
         }
-    }
+    };
+    
+    getCurrentForecast = () => {
+        console.log(this.state.currentLocation);
+        let splitLat = this.state.currentLocation.coords.latitude;
+        let splitLon = this.state.currentLocation.coords.longitude;
+        
+        let forecast = Api.getForecastFromCoordinates(splitLat, splitLon);
+        this.setState({currentLocationForecast: forecast});
+        
+        console.log('forecast', this.state.currentLocationForecast);
+    };
     
     render() {
         return(

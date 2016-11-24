@@ -61,7 +61,8 @@ var Utils = {
                 abbrDay = 'Sun';
         }
         return abbrDay;
-    }
+    },
+    
     
 }
 
