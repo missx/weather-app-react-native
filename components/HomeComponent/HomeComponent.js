@@ -20,16 +20,16 @@ import Utils from '../../utils/js/utils';
 export default class HomeComponent extends Component {
     
     state = {
-        currentLocation: {},
-        currentLocationForecast: {}
+        currentLocation: undefined,
+        currentLocationForecast: undefined,
+        currentWeather: undefined
     };
     
     constructor(props) {
         super(props);
-        
     };
     
-    componentDidMount = function () {
+    componentDidMount = function () {        
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({currentLocation: position});
@@ -49,45 +49,68 @@ export default class HomeComponent extends Component {
     };
     
     getCurrentForecast = () => {
-        console.log(this.state.currentLocation);
-        let splitLat = this.state.currentLocation.coords.latitude;
-        let splitLon = this.state.currentLocation.coords.longitude;
+        let lat = this.state.currentLocation.coords.latitude;
+        let long = this.state.currentLocation.coords.longitude;
+        var component = this;
         
-        let forecast = Api.getForecastFromCoordinates(splitLat, splitLon);
-        this.setState({currentLocationForecast: forecast});
-        
-        console.log('forecast', this.state.currentLocationForecast);
+        let url = Api.getWeatherFromCoordinates(lat, long);
+        fetch(url, {
+            method: 'get'
+        }).then (function (response) {
+            return response.json();
+        }).then (function (data) {
+            component.setState({currentWeather: data});  
+        }).catch (function(err) {
+            alert(err);
+        });
     };
     
-    render() {
-        return(
-            <View style={GeneralStyles.background}>
-                <ToolbarAndroid
-                    logo={require('../../utils/imgs/Weather.png')}
-                    title={this.props.title} 
-                    actions={[{title: 'Search Location', icon: require('../../utils/icons/search.png'), show: 'always', showWithText: false}]}
-                    onActionSelected={this._onActionSelected} 
-                    style={Style.toolbar}/>
-                <ScrollView style={Style.main}>
-                    <View style={Style.currentDayView}>
-                        <LocationComponent location='Montevideo, Uruguay'/>
-                        <DateComponent abbrDay="Fri" day='10' month='January' year='2017'/>
-                        <CurrentWeatherComponent 
-                            description='clear sky'
-                            currentTemperature='22'
-                            min='18'
-                            max='24'/>
-                    </View>
-                    <View style={Style.nextDaysView}>
-                        <NextDaysComponent description="clear sky" min="19"
-                        max="25" abbrDay="Sat"/>
-                        <NextDaysComponent description="clear sky" min="17"
-                        max="22" abbrDay="Sun"/>
-                        <NextDaysComponent description="clear sky" min="17"
-                        max="24" abbrDay="Mon"/>
-                    </View>
-                </ScrollView>
-            </View>
-        );
+    render() { 
+        
+        if (!this.state.currentWeather) {
+            return (
+                <View style={GeneralStyles.background}>
+                    <ToolbarAndroid
+                        logo={require('../../utils/imgs/Weather.png')}
+                        title={this.props.title} 
+                        actions={[{title: 'Search Location', icon: require('../../utils/icons/search.png'), show: 'always', showWithText: false}]}
+                        onActionSelected={this._onActionSelected} 
+                        style={Style.toolbar}/>
+                    <ScrollView style={Style.main}>
+                        <Text>Hello</Text>
+                    </ScrollView>
+                </View>
+            )
+        } else {
+            return (
+                <View style={GeneralStyles.background}>
+                    <ToolbarAndroid
+                        logo={require('../../utils/imgs/Weather.png')}
+                        title={this.props.title} 
+                        actions={[{title: 'Search Location', icon: require('../../utils/icons/search.png'), show: 'always', showWithText: false}]}
+                        onActionSelected={this._onActionSelected} 
+                        style={Style.toolbar}/>
+                    <ScrollView style={Style.main}>
+                        <View style={Style.currentDayView}>
+                            <LocationComponent location='Montevideo, Uruguay'/>
+                            <DateComponent abbrDay="Fri" day='10' month='January' year='2017'/>
+                            <CurrentWeatherComponent 
+                                description='clear sky'
+                                currentTemperature={this.state.currentWeather.main.temp}
+                                min={this.state.currentWeather.main.temp_min}
+                                max={this.state.currentWeather.main.temp_max}/>
+                        </View>
+                        <View style={Style.nextDaysView}>
+                            <NextDaysComponent description="clear sky" min="19"
+                            max="25" abbrDay="Sat"/>
+                            <NextDaysComponent description="clear sky" min="17"
+                            max="22" abbrDay="Sun"/>
+                            <NextDaysComponent description="clear sky" min="17"
+                            max="24" abbrDay="Mon"/>
+                        </View>
+                    </ScrollView>
+                </View>
+            );
+        }
     }
 }
