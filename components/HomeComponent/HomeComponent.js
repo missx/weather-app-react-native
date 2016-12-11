@@ -21,7 +21,7 @@ export default class HomeComponent extends Component {
     
     state = {
         currentLocation: undefined,
-        currentLocationForecast: undefined,
+        currentForecast: undefined,
         currentWeather: undefined
     };
     
@@ -53,8 +53,8 @@ export default class HomeComponent extends Component {
         let long = this.state.currentLocation.coords.longitude;
         var component = this;
         
-        let url = Api.getWeatherFromCoordinates(lat, long);
-        fetch(url, {
+        let weatherUrl = Api.getWeatherOrForecastFromCoordinates(lat, long, 'weather');
+        fetch(weatherUrl, {
             method: 'get'
         }).then (function (response) {
             return response.json();
@@ -63,6 +63,18 @@ export default class HomeComponent extends Component {
         }).catch (function(err) {
             alert(err);
         });
+        
+        let forecastUrl = Api.getWeatherOrForecastFromCoordinates(lat, long, 'forecast');
+        fetch(forecastUrl, {
+            method: 'get'
+        }).then (function (response) {
+            return response.json();
+        }).then (function (data) {
+            component.setState({currentForecast: data});  
+        }).catch (function(err) {
+            alert(err);
+        });
+        
     };
     
     render() { 
@@ -90,7 +102,7 @@ export default class HomeComponent extends Component {
                         actions={[{title: 'Search Location', icon: require('../../utils/icons/search.png'), show: 'always', showWithText: false}]}
                         onActionSelected={this._onActionSelected} 
                         style={Style.toolbar}/>
-                    <ScrollView style={Style.main}>
+                    <ScrollView style={GeneralStyles.mainComponent}>
                         <View style={Style.currentDayView}>
                             <LocationComponent location='Montevideo, Uruguay'/>
                             <DateComponent abbrDay="Fri" day='10' month='January' year='2017'/>

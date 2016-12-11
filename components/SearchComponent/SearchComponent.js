@@ -8,6 +8,8 @@ import {
     ScrollView
 } from 'react-native';
 import Style from './SearchComponentStyle';
+import SearchInputComponent from '../SearchInputComponent/SearchInputComponent';
+import GeneralStyles from '../GeneralStyles';
 
 export default class SearchComponent extends Component {
     
@@ -21,15 +23,15 @@ export default class SearchComponent extends Component {
     
     render() {
         return(
-            <View>
+            <View style={GeneralStyles.background}>
                 <ToolbarAndroid
                     logo={require('../../utils/imgs/Weather.png')}
                     title={this.props.title} 
                     actions={[{title: 'Current location', icon: require('../../utils/icons/gps-signal.png'), show: 'always', showWithText: false}]}
                     onActionSelected={this._onActionSelected} 
                     style={Style.toolbar}/>
-                <Text>Search Location</Text>
-                <ScrollView>
+                <ScrollView style={GeneralStyles.mainComponent}>
+                    <SearchInputComponent/>
                 </ScrollView>
             </View>
         );

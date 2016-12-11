@@ -5,13 +5,6 @@ export default {
         height: 56
     },
     
-    main: {
-        paddingTop: 30,
-        paddingBottom: 20,
-        paddingLeft: 10,
-        paddingRight: 10
-    },
-    
     currentDayView: {
         height: 280, 
     },
