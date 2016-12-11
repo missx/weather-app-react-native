@@ -5,8 +5,8 @@ var WeatherApi = {
         return url;        
     },
     
-    getWeatherOrForecastFromCityAndCountry: function(city, country, type) {
-        let url = 'api.openweathermap.org/data/2.5/' + type + '?q=' + city + ',' + countryCode + '&mode=json&units=metric';
+    getWeatherOrForecastFromCityAndCountry: function(city, countryCode, type) {
+        let url = 'http://api.openweathermap.org/data/2.5/' + type + '?q=' + city + ',' + countryCode + '&mode=json&units=metric';
         return url;
     }
 }

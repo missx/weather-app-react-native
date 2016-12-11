@@ -13,14 +13,15 @@ export default class SearchInputComponent extends Component {
             <View>
                 <Text style={Style.text}>Enter place:</Text>
                 <TextInput
-                    onEndEditing={(event) => this._findLocation(event.nativeEvent.text)}>
+                    onSubmitEditing ={(event) => this.findLocation(event.nativeEvent.text)}
+                    clearTextOnFocus={true}>
             
                 </TextInput>
             </View>
         );
     }
 
-    _findLocation(location) {
-        
+    findLocation(location) {
+        this.props.searchForecast(location);
     }
 }
