@@ -19,16 +19,21 @@ import Utils from '../../utils/js/utils';
 
 export default class HomeComponent extends Component {
     
-    state = {
-        currentLocation: undefined,
-        currentForecast: undefined,
-        currentWeather: undefined
-    };
-    
     constructor(props) {
         super(props);
     };
     
+    state = {
+        currentLocation: undefined,
+        currentForecast: undefined,
+        currentWeather: undefined,
+        currentDate: undefined,
+    };
+    
+    componentWillMount = function () {
+        this.getDateParts();
+    };
+        
     componentDidMount = function () {        
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -38,6 +43,11 @@ export default class HomeComponent extends Component {
             (error) => alert(JSON.stringify(error)),
             {enableHighAccuracy: true, timeout: 10000, maximumAge: 3000}
         );
+    };
+    
+    getDateParts = function () {
+        let date = Utils.getDateObject();
+        this.setState({currentDate: date});
     };
     
     _onActionSelected = (position) => {
@@ -105,7 +115,11 @@ export default class HomeComponent extends Component {
                     <ScrollView style={GeneralStyles.mainComponent}>
                         <View style={Style.currentDayView}>
                             <LocationComponent location='Montevideo, Uruguay'/>
-                            <DateComponent abbrDay="Fri" day='10' month='January' year='2017'/>
+                            <DateComponent 
+                            abbrDay={this.state.currentDate.currentDay}
+                            day={this.state.currentDate.currentDateOfMonth} 
+                            month={this.state.currentDate.currentMonth} 
+                            year={this.state.currentDate.currentYear}/>
                             <CurrentWeatherComponent 
                                 description='clear sky'
                                 currentTemperature={this.state.currentWeather.main.temp}

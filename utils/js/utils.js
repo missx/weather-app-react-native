@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 var Utils = {
     
     _findCorrespondingWeatherImg: function(weatherDescription) {
@@ -35,32 +37,101 @@ var Utils = {
         return image;
     },
     
-    _getDayOfWeekAbbreviated: function(day) {
+    getDateObject: function() {
+        let wholeDate = new moment();
+        let dateToReturn = {};
+        alert(wholeDate.day());
+        //set day
+        let day = this.getDayOfWeekAbbreviated(wholeDate.day());
+        
+        //set date 
+        let dateOfMonth = wholeDate.date();
+        
+        //set month
+        let month = this.getMonthName(wholeDate.month());
+        
+        //set year
+        let year = wholeDate.year();
+        
+        dateToReturn = {
+            currentDay: day,
+            currentDateOfMonth: dateOfMonth,
+            currentMonth: month,
+            currentYear: year
+        };
+        
+        return dateToReturn;
+    },
+    
+    getDayOfWeekAbbreviated: function(day) {
         var abbrDay = '';
     
         switch (day) {
-            case 'Monday':
+            case 0:
+                abbrDay = 'Sun';
+                break;
+            case 1:
                 abbrDay = 'Mon';
                 break;
-            case 'Tuesday':
+            case 2:
                 abbrDay = 'Tue';
                 break;
-            case 'Wednesday':
+            case 3:
                 abbrDay = 'Wed';
                 break;
-            case 'Thursday':
+            case 4:
                 abbrDay = 'Thu';
                 break;
-            case 'Friday':
+            case 5:
                 abbrDay = 'Fri';
                 break;
-            case 'Saturday':
+            case 6:
                 abbrDay = 'Sat';
-                break;
-            case 'Sunday':
-                abbrDay = 'Sun';
         }
         return abbrDay;
+    },
+    
+    getMonthName: function(nr) {
+        var monthName = '';
+    
+        switch (nr) {
+            case 0:
+                monthName = 'January';
+                break;
+            case 1:
+                monthName = 'February';
+                break;
+            case 2:
+                monthName = 'March';
+                break;
+            case 3:
+                monthName = 'April';
+                break;
+            case 4:
+                monthName = 'May';
+                break;
+            case 5:
+                monthName = 'June';
+                break;
+            case 6:
+                monthName = 'July';
+                break;
+            case 7:
+                monthName = 'August';
+                break;
+            case 8:
+                monthName = 'September';
+                break;
+            case 9:
+                monthName = 'October';
+                break;
+            case 10:
+                monthName = 'November';
+                break;
+            case 11:
+                monthName = 'December';
+        }
+        return monthName;
     },
     
     
