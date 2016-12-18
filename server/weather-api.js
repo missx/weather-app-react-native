@@ -6,7 +6,7 @@ var WeatherApi = {
     },
     
     getWeatherOrForecastFromCityAndCountry: function(city, countryCode, type) {
-        let url = 'http://api.openweathermap.org/data/2.5/' + type + '?q=' + city + ',' + countryCode + '&mode=json&units=metric';
+        let url = 'http://api.openweathermap.org/data/2.5/' + type + '?q=' + city + ',' + countryCode + '&mode=json&units=metric&APPID=dca88c080f0ed5c2e18364a7ad831805';
         return url;
     }
 }

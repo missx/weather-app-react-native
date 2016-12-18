@@ -6,11 +6,10 @@ export default {
     },
     
     currentDayView: {
-        height: 280, 
+        height: 230, 
     },
     
     nextDaysView: {
-        paddingTop: 20,
         paddingBottom: 20,
         flexDirection: 'row',
         alignItems: 'center',

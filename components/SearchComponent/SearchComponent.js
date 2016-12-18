@@ -39,14 +39,15 @@ export default class SearchComponent extends Component {
     
     searchForecastParent = (place) => {
         var component = this;
-        this.setState({place:place});
+        let wholePlace = place.charAt(0).toUpperCase() + place.slice(1) + ', US'; 
+        this.setState({ place : wholePlace});
         let weatherUrl = Api.getWeatherOrForecastFromCityAndCountry(place, 'US', 'weather');
         
         fetch(weatherUrl, {
             method: 'get'
         }).then (function (response) {
             return response.json();
-        }).then (function (data) {alert(data);
+        }).then (function (data) {console.log(data);
             component.setState({placeWeather: data});  
         }).catch (function(err) {
             alert(err);

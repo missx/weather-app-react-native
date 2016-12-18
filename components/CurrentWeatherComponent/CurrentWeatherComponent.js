@@ -27,7 +27,7 @@ export default class CurrentWeatherComponent extends Component {
                 <View>
                     <Text
                         style={[Style.minMax, GeneralStyles.font]}>
-                        {this.props.min} C° - {this.props.max} C°
+                        {this.props.min} C° / {this.props.max} C°
                     </Text>
                 </View>    
             </View>
