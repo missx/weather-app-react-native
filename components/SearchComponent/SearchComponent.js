@@ -22,12 +22,18 @@ export default class SearchComponent extends Component {
     state = {
         placeForecast: undefined,
         placeWeather: undefined,
-        place: undefined
+        place: undefined,
+        currentDate: undefined
     };
     
     constructor(props) {
         super(props);
     };
+    
+    componentWillMount = function () {
+        let dateObj = Utils.getDateObject();
+        this.setState({currentDate: dateObj});
+    }
     
     onActionSelected = (position) => {
         if (position === 0) {
@@ -52,11 +58,23 @@ export default class SearchComponent extends Component {
         }).catch (function(err) {
             alert(err);
         });
+        
+        let forecastUrl = Api.getWeatherOrForecastFromCityAndCountry(place, 'US', 'forecast');
+        fetch(forecastUrl, {
+            method: 'get'
+        }).then (function (response) {
+            return response.json();
+        }).then (function (data) {
+            component.setState({placeForecast: data}); 
+            console.log(data);
+        }).catch (function(err) {
+            alert(err);
+        });
     };
     
     render() {
         
-        if (!this.state.placeWeather) {
+        if (!this.state.placeWeather || !this.state.placeForecast) {
             return(
                 <View style={GeneralStyles.background}>
                     <ToolbarAndroid
@@ -83,20 +101,20 @@ export default class SearchComponent extends Component {
                         <SearchInputComponent searchForecast={this.searchForecastParent}/>
                         <View style={Style.currentDayView}>
                             <LocationComponent location={this.state.place}/>
-                            <DateComponent abbrDay="Fri" day='10' month='January' year='2017'/>
+                            <DateComponent abbrDay={this.state.currentDate.currentDay} day={this.state.currentDate.currentDateOfMonth} month={this.state.currentDate.currentMonth} year={this.state.currentDate.currentYear}/>
                             <CurrentWeatherComponent 
-                                description='clear sky'
+                                imageCode={this.state.placeWeather.weather[0].icon}
                                 currentTemperature={this.state.placeWeather.main.temp}
                                 min={this.state.placeWeather.main.temp_min}
                                 max={this.state.placeWeather.main.temp_max}/>
                         </View>
                         <View style={Style.nextDaysView}>
-                            <NextDaysComponent description="clear sky" min="19"
-                            max="25" abbrDay="Sat"/>
-                            <NextDaysComponent description="clear sky" min="17"
-                            max="22" abbrDay="Sun"/>
-                            <NextDaysComponent description="clear sky" min="17"
-                            max="24" abbrDay="Mon"/>
+                            <NextDaysComponent imageCode={this.state.placeForecast.list[1].weather[0].icon} min={this.state.placeForecast.list[2].temp.min}
+                            max={this.state.placeForecast.list[1].temp.max} abbrDay={this.state.currentDate.tomorrow}/>
+                            <NextDaysComponent imageCode={this.state.placeForecast.list[2].weather[0].icon} min={this.state.placeForecast.list[2].temp.min}
+                            max={this.state.placeForecast.list[2].temp.max} abbrDay={this.state.currentDate.dayAfterTomorrow}/>
+                            <NextDaysComponent imageCode={this.state.placeForecast.list[3].weather[0].icon} min={this.state.placeForecast.list[3].temp.min}
+                            max={this.state.placeForecast.list[3].temp.max} abbrDay={this.state.currentDate.dayAfterAfterTomorrow}/>
                         </View>
                     </ScrollView>
                 </View>

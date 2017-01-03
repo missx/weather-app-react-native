@@ -16,18 +16,18 @@ export default class CurrentWeatherComponent extends Component {
             <View style={Style.view}>
                 <Image
                     style={Style.image}
-                    source={{uri: Utils._findCorrespondingWeatherImg(this.props.description)}}
+                    source={{uri: Utils.getImageUrl(this.props.imageCode)}}
                 />
                 <View>
                     <Text
                         style={[Style.currentTemp, GeneralStyles.font]}>
-                        {this.props.currentTemperature} C°
+                        {Utils.getWholeNr(this.props.currentTemperature)} C°
                     </Text>
                 </View>
                 <View>
                     <Text
                         style={[Style.minMax, GeneralStyles.font]}>
-                        {this.props.min} C° / {this.props.max} C°
+                        {Utils.getWholeNr(this.props.min)} C° / {Utils.getWholeNr(this.props.max)} C°
                     </Text>
                 </View>    
             </View>

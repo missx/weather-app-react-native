@@ -12,7 +12,6 @@ import Utils from '../../utils/js/utils';
 
 export default class NextDaysComponent extends Component {
     
-    
     render() {
         return(
             <View style={Style.mainView}>
@@ -22,11 +21,11 @@ export default class NextDaysComponent extends Component {
                 </Text>
                 <Image
                     style={Style.image}
-                    source={{uri: Utils._findCorrespondingWeatherImg(this.props.description)}}
+                    source={{uri: Utils.getImageUrl(this.props.imageCode)}}
                 />
                 <Text
                     style={[Style.minMax, GeneralStyles.font]}>
-                    {this.props.min} C° - {this.props.max} C°
+                    {Utils.getWholeNr(this.props.min)} C° - {Utils.getWholeNr(this.props.max)} C°
                 </Text>
             </View>
         );

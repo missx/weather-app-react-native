@@ -2,62 +2,20 @@ var moment = require('moment');
 
 var Utils = {
     
-    _findCorrespondingWeatherImg: function(weatherDescription) {
-        
-        var image = '';
-        
-        switch (weatherDescription) {
-            case 'clear sky':
-                image = 'http://openweathermap.org/img/w/01d.png';
-                break;
-            case 'few clouds':
-                image = 'http://openweathermap.org/img/w/02d.png';
-                break;
-            case 'scattered clouds':
-                image = 'http://openweathermap.org/img/w/03d.png';
-                break;
-            case 'broken clouds':
-                image = 'http://openweathermap.org/img/w/04d.png';
-                break;
-            case 'shower rain':
-                image = 'http://openweathermap.org/img/w/09d.png';
-                break;
-            case 'rain':
-                image = 'http://openweathermap.org/img/w/10d.png';
-                break;
-            case 'thunderstorm':
-                image = 'http://openweathermap.org/img/w/11d.png';
-                break;
-            case 'snow':
-                image = 'http://openweathermap.org/img/w/13d.png';
-                break;
-            case 'mist':
-                image = 'http://openweathermap.org/img/w/50d.png';
-        }
-        return image;
+    getImageUrl: function(code) {        
+        return 'http://openweathermap.org/img/w/' + code + '.png';
     },
     
     getDateObject: function() {
         let wholeDate = new moment();
-        let dateToReturn = {};
-        alert(wholeDate.day());
-        //set day
-        let day = this.getDayOfWeekAbbreviated(wholeDate.day());
-        
-        //set date 
-        let dateOfMonth = wholeDate.date();
-        
-        //set month
-        let month = this.getMonthName(wholeDate.month());
-        
-        //set year
-        let year = wholeDate.year();
-        
-        dateToReturn = {
-            currentDay: day,
-            currentDateOfMonth: dateOfMonth,
-            currentMonth: month,
-            currentYear: year
+        let dateToReturn = {
+            currentDay: this.getDayOfWeekAbbreviated(wholeDate.day()),
+            currentDateOfMonth: wholeDate.date(),
+            currentMonth: this.getMonthName(wholeDate.month()),
+            currentYear: wholeDate.year(), 
+            tomorrow: this.getDayOfWeekAbbreviated(wholeDate.day() + 1),
+            dayAfterTomorrow: this.getDayOfWeekAbbreviated(wholeDate.day() + 2), 
+            dayAfterAfterTomorrow: this.getDayOfWeekAbbreviated(wholeDate.day() + 3), 
         };
         
         return dateToReturn;
@@ -132,6 +90,13 @@ var Utils = {
                 monthName = 'December';
         }
         return monthName;
+    },
+    
+    getWholeNr: function(number) {
+        if (number) {
+            arrayTemp = number.toString().split('.');
+            return arrayTemp[0];
+        };
     },
     
     

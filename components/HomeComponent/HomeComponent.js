@@ -69,7 +69,8 @@ export default class HomeComponent extends Component {
         }).then (function (response) {
             return response.json();
         }).then (function (data) {
-            component.setState({currentWeather: data});  
+            component.setState({currentWeather: data}); 
+            console.log('current', data.weather[0].icon);
         }).catch (function(err) {
             alert(err);
         });
@@ -80,7 +81,8 @@ export default class HomeComponent extends Component {
         }).then (function (response) {
             return response.json();
         }).then (function (data) {
-            component.setState({currentForecast: data});  
+            component.setState({currentForecast: data}); 
+            console.log(data);
         }).catch (function(err) {
             alert(err);
         });
@@ -89,7 +91,7 @@ export default class HomeComponent extends Component {
     
     render() { 
         
-        if (!this.state.currentWeather) {
+        if (!this.state.currentWeather || !this.state.currentForecast) {
             return (
                 <View style={GeneralStyles.background}>
                     <ToolbarAndroid
@@ -121,18 +123,18 @@ export default class HomeComponent extends Component {
                             month={this.state.currentDate.currentMonth} 
                             year={this.state.currentDate.currentYear}/>
                             <CurrentWeatherComponent 
-                                description='clear sky'
+                                imageCode={this.state.currentWeather.weather[0].icon}
                                 currentTemperature={this.state.currentWeather.main.temp}
                                 min={this.state.currentWeather.main.temp_min}
                                 max={this.state.currentWeather.main.temp_max}/>
                         </View>
                         <View style={Style.nextDaysView}>
-                            <NextDaysComponent description="clear sky" min="19"
-                            max="25" abbrDay="Sat"/>
-                            <NextDaysComponent description="clear sky" min="17"
-                            max="22" abbrDay="Sun"/>
-                            <NextDaysComponent description="clear sky" min="17"
-                            max="24" abbrDay="Mon"/>
+                            <NextDaysComponent imageCode={this.state.currentForecast.list[1].weather[0].icon} min={this.state.currentForecast.list[2].temp.min}
+                            max={this.state.currentForecast.list[1].temp.max} abbrDay={this.state.currentDate.tomorrow}/>
+                            <NextDaysComponent imageCode={this.state.currentForecast.list[2].weather[0].icon} min={this.state.currentForecast.list[2].temp.min}
+                            max={this.state.currentForecast.list[2].temp.max} abbrDay={this.state.currentDate.dayAfterTomorrow}/>
+                            <NextDaysComponent imageCode={this.state.currentForecast.list[3].weather[0].icon} min={this.state.currentForecast.list[3].temp.min}
+                            max={this.state.currentForecast.list[3].temp.max} abbrDay={this.state.currentDate.dayAfterAfterTomorrow}/>
                         </View>
                     </ScrollView>
                 </View>
