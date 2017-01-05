@@ -13,9 +13,10 @@ export default class SearchInputComponent extends Component {
             <View>
                 <Text style={Style.text}>Enter place:</Text>
                 <TextInput
-                    onSubmitEditing ={(event) => this.findLocation(event.nativeEvent.text)}
-                    clearTextOnFocus={true}>
-            
+                    onSubmitEditing = {(event) => this.findLocation(event.nativeEvent.text)}
+                    ref='textInput'
+                    autofocus={true}
+                     >
                 </TextInput>
             </View>
         );
@@ -23,5 +24,7 @@ export default class SearchInputComponent extends Component {
 
     findLocation(location) {
         this.props.searchForecast(location);
+        this.refs.textInput.setNativeProps({text: ''});
+        this.refs.textInput.blur();
     }
 }
